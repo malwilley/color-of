@@ -12,6 +12,7 @@
     "eslint-plugin-import": "^2.2.0"
   },
   "dependencies": {
+    "color": "^1.0.3",
     "color-convert": "^1.9.0",
     "node-bing-api": "^3.2.1"
   }

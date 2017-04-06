@@ -1,5 +1,6 @@
 const bing = require('node-bing-api')({ accKey: '' });
 const Color = require('color');
+const diff = require('color-diff');
 
 /**
 * Fetches the primary colors used in images returned by the given search query
@@ -19,7 +20,7 @@ function fetchQueryColors(query, count = 50) {
       const results = body.value;
       const accents = results
         .map(r => r.accentColor)
-        .map(a => Color(a));
+        .map(a => Color(`#${a}`));
       resolve(accents);
     });
   });
@@ -45,47 +46,101 @@ function getColorOptions(hues, sats, lights) {
 }
 
 /**
-* Gets values evenly spaced between 0 and 255
-* @param {number} num number of values to return
+* Gets values evenly spaced between 0 and maxValue
+* @param {number} numVals number of values to return
+* @param {number} maxVal maximum value to return values between
 * @returns {number[]} the array of values
 */
-function getEvenlySpacedHslValues(num) {
-  const step = 255 / num;
+function getEvenlySpacedValues(numVals, maxVal) {
+  const step = maxVal / numVals;
   const halfstep = step / 2;
-  return [...Array(num).keys()]
+  return [...Array(numVals).keys()]
     .map(i => Math.round((i * step) + halfstep));
 }
 
-function indexOfMin(arr) {
-  if (arr.length === 0) {
-    return -1;
-  }
-  let min = arr[0];
-  let minIndex = 0;
-  for (let i = 1; i < arr.length; i += 1) {
-    if (arr[i] < min) {
-      min = arr[i];
-      minIndex = i;
+/**
+* Gets the color which appears most in the given array.
+* If no color predominates, the highest frequency colors are mixed and the
+* color closest to this result is returned.
+* @param {Color[]} colors the array of colors to work with
+* @returns {Color} the color which appears most frequently
+*/
+function getHighestFrequencyColor(colors) {
+  // Populate array of objects with color and number appearances
+  const colorCounts = [];
+  let maxCount = 0;
+  colors.forEach((color) => {
+    const colorCount = colorCounts
+      .find(cf => cf.color.hex() === color.hex());
+    if (colorCount) {
+      colorCount.count += 1;
+      if (colorCount.count > maxCount) {
+        maxCount = colorCount.count;
+      }
+    } else {
+      colorCounts.push({
+        color,
+        count: 1,
+      });
     }
-  }
-  return minIndex;
+  });
+  console.log(`Colors: ${colorCounts.map(c => c.color.hex())}`);
+  console.log(`Counts: ${colorCounts.map(c => c.count)}`);
+  console.log(`Max count: ${maxCount}`);
+  const highFreqColors = colorCounts.filter(c => c.count === maxCount);
+
+  // TODO: if multiple entries in array, do averaging
+
+  return highFreqColors[0].color;
+}
+
+function colorToRgb(color) {
+  return {
+    R: color.red(),
+    G: color.green(),
+    B: color.blue(),
+  };
+}
+
+function rgbToColor(rgbObj) {
+  return Color({
+    r: rgbObj.R,
+    g: rgbObj.G,
+    b: rgbObj.B,
+  });
 }
 
 /**
 * Takes an array of colors corresponding to a term and matches it to the
 * closest color of the given options
-* @param {number[][]} termColors HSL colors corresponding to a given term
-* @param {ColorBin[]} colorOptions options to match the term to
-* @returns {number[]} HSL color for the given term
+* @param {Color[]} termColors colors corresponding to a given term
+* @param {Color[]} colorOptions options to match the term to
+* @returns {Color} Color object for the given term
 */
 function matchTermToColor(termColors, colorOptions) {
+  // convert both color arrays to {R,G,B} objects for use in color-diff lib
+  const optionsRgb = colorOptions.map(colorToRgb);
+  const termsRgb = termColors.map(colorToRgb);
 
+  // match each of the term's color results to the color it is closest to
+  const closestColorOptions = termsRgb
+    .map(termColor => diff.closest(termColor, optionsRgb))
+    .map(rgbToColor);
+
+  // find and return the color most highly represented
+  return getHighestFrequencyColor(closestColorOptions);
 }
 
-const queries = ['chocolate', 'grape juice', 'strawberry', 'banana'];
-Promise.all(queries.map(q => fetchQueryColors(q)))
+const queries = ['grape juice', 'strawberry', 'banana'];
+Promise.all(queries.map(q => fetchQueryColors(q, 20)))
 .then((colors) => {
-  const bins = getColorBins(20);
-  const ret = colors.map(c => matchTermToColor(c, bins));
-  console.log(ret);
+  const options = getColorOptions(
+    getEvenlySpacedValues(12, 255),
+    [30],
+    [40, 60]);
+  const ret = colors.map(c => matchTermToColor(c, options));
+  console.log(`TERM COLORS: ${ret.map(c => c.hex())}`);
+})
+.catch((err) => {
+  console.error(err);
 });

@@ -1,6 +1,6 @@
-const bing = require('node-bing-api')({ accKey: '' });
 const Color = require('color');
 const diff = require('color-diff');
+const getBingApi = require('node-bing-api');
 
 /**
 * Fetches the primary colors used in images returned by the given search query

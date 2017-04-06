@@ -21,6 +21,7 @@ function fetchQueryColors(query, count = 50) {
       const accents = results
         .map(r => r.accentColor)
         .map(a => Color(`#${a}`));
+      // console.log(`${query}: ${accents}`);
       resolve(accents);
     });
   });
@@ -28,9 +29,9 @@ function fetchQueryColors(query, count = 50) {
 
 /**
 * Gets an array of colors containing all combinations of the given hsl values
-* @param {number[]} hues hue values (0-255)
-* @param {number[]} sats saturation values (0-255)
-* @param {number[]} lights lightness values (0-255)
+* @param {number[]} hues hue values (0-360)
+* @param {number[]} sats saturation values (0-100)
+* @param {number[]} lights lightness values (0-100)
 * @returns {Color[]} array of Color objects of all h/s/l combinations
 */
 function getColorOptions(hues, sats, lights) {
@@ -42,6 +43,7 @@ function getColorOptions(hues, sats, lights) {
       });
     });
   });
+  // console.log(`Options: ${colors}`);
   return colors;
 }
 
@@ -86,7 +88,6 @@ function getHighestFrequencyColor(colors) {
   });
   console.log(`Colors: ${colorCounts.map(c => c.color.hex())}`);
   console.log(`Counts: ${colorCounts.map(c => c.count)}`);
-  console.log(`Max count: ${maxCount}`);
   const highFreqColors = colorCounts.filter(c => c.count === maxCount);
 
   // TODO: if multiple entries in array, do averaging
@@ -131,12 +132,12 @@ function matchTermToColor(termColors, colorOptions) {
   return getHighestFrequencyColor(closestColorOptions);
 }
 
-const queries = ['grape juice', 'strawberry', 'banana'];
-Promise.all(queries.map(q => fetchQueryColors(q, 20)))
+const query = 'vodka';
+fetchQueryColors(query, 50)
 .then((colors) => {
   const options = getColorOptions(
-    getEvenlySpacedValues(12, 255),
-    [30],
+    getEvenlySpacedValues(36, 360),
+    [60, 80],
     [40, 60]);
   const ret = colors.map(c => matchTermToColor(c, options));
   console.log(`TERM COLORS: ${ret.map(c => c.hex())}`);

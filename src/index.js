@@ -8,9 +8,9 @@ const getBingApi = require('node-bing-api');
 * @param {count} count the number of image results to get colors for (max 50)
 * @returns {Promise<Color[]>} promise which resolves to an array of Colors
 */
-function fetchQueryColors(query, count = 50) {
+function fetchQueryColors(bingApi, query, count = 50) {
   return new Promise((resolve, reject) => {
-    bing.images(query, {
+    bingApi.images(query, {
       count,
     }, (err, res, body) => {
       if (err) {
@@ -132,16 +132,28 @@ function matchTermToColor(termColors, colorOptions) {
   return getHighestFrequencyColor(closestColorOptions);
 }
 
-const query = 'vodka';
-fetchQueryColors(query, 50)
-.then((colors) => {
-  const options = getColorOptions(
-    getEvenlySpacedValues(36, 360),
-    [60, 80],
-    [40, 60]);
-  const ret = colors.map(c => matchTermToColor(c, options));
-  console.log(`TERM COLORS: ${ret.map(c => c.hex())}`);
-})
-.catch((err) => {
-  console.error(err);
-});
+const ColorClassifier = {
+  classify: (term, options) => {
+    if (!term || term.length === 0) {
+      throw new Error('Must provide a valid search term string');
+    }
+    if (!options) {
+      throw new Error('Must provide an options object');
+    }
+    if (!options.bingApiString) {
+      throw new Error('Must provide a Bing search API string');
+    }
+
+    const bingApi = getBingApi({ accKey: options.bingApiString });
+    const numResults = options.numResults || 50;
+    const pallette = options.pallette || getColorOptions(
+      getEvenlySpacedValues(36, 360),
+      [60, 80],
+      [40, 60]);
+
+    return fetchQueryColors(bingApi, term, numResults)
+      .then(colors => matchTermToColor(colors, pallette));
+  },
+};
+
+module.exports = ColorClassifier;

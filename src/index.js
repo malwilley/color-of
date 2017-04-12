@@ -140,11 +140,11 @@ const ColorClassifier = {
     if (!options) {
       throw new Error('Must provide an options object');
     }
-    if (!options.bingApiString) {
+    if (!options.bingApiKey) {
       throw new Error('Must provide a Bing search API string');
     }
 
-    const bingApi = getBingApi({ accKey: options.bingApiString });
+    const bingApi = getBingApi({ accKey: options.bingApiKey });
     const numResults = options.numResults || 50;
     const pallette = options.pallette || getColorOptions(
       getEvenlySpacedValues(36, 360),

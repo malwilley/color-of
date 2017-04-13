@@ -9,7 +9,7 @@ try {
 }
 
 const classifier = require('../lib/index.js');
-const should = require('should');
+require('should');
 
 const options = {
   bingApiKey,

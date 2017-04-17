@@ -11,6 +11,7 @@ try {
 const classifier = require('../lib/index');
 const bing = require('../lib/bing');
 const Color = require('color');
+const util = require('../lib/util');
 require('should');
 
 const options = {
@@ -39,15 +40,16 @@ describe('classifier', () => {
     it('should throw when term is an empty string', () => {
       (() => classifier.classify('', options)).should.throw();
     });
-    it('should return an instance of Color', () => {
+    it('should resolve to an instance of Color', () => {
       classifier.classify('term', options)
-      .then(color => color.should.be.an.instanceOf(Color));
+      .should.not.be.rejected()
+      .should.eventually.be.an.instanceOf(Color);
     });
   });
 });
 
 describe('bing', () => {
-  describe('#fetchQueryColors', () => {
+  describe('#fetchQueryColors()', () => {
     it('should return an array with [count] Color objects', () => {
       const count = 27;
       bing.fetchQueryColors(bingApiKey, 'query', count)
@@ -55,6 +57,30 @@ describe('bing', () => {
         colors.should.be.instanceOf(Array).and.have.lengthOf(count);
         colors.forEach(color => color.should.be.an.instanceOf(Color));
       });
+    });
+    it('should reject invalid search query counts', () => {
+      bing.fetchQueryColors(bingApiKey, 'query', -1).should.be.rejected();
+      bing.fetchQueryColors(bingApiKey, 'query', 51).should.be.rejected();
+    });
+  });
+});
+
+describe('util', () => {
+  describe('#colorToRgb()', () => {
+    it('should return an object with correct RGB values', () => {
+      const color = new Color('#FFFFFF');
+      const rgb = util.colorToRgb(color);
+      rgb.should.have.property('R').which.is.exactly(255);
+      rgb.should.have.property('G').which.is.exactly(255);
+      rgb.should.have.property('B').which.is.exactly(255);
+    });
+  });
+  describe('#rgbToColor()', () => {
+    it('should return the correct Color object', () => {
+      const rgb = { R: 255, G: 255, B: 255 };
+      const color = util.rgbToColor(rgb);
+      color.should.be.an.instanceOf(Color);
+      color.hex().should.be.exactly('#FFFFFF');
     });
   });
 });

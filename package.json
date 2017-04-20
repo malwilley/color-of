@@ -1,13 +1,13 @@
 {
   "name": "color-classifier",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "version": "0.1.0",
+  "description": "search term -> color",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "Malachi Willey",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",

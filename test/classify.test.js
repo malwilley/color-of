@@ -1,5 +1,3 @@
-/* eslint-env node, mocha */
-
 let bingApiKey;
 
 try {
@@ -12,6 +10,8 @@ const classifier = require('../lib/index');
 const bing = require('../lib/bing');
 const Color = require('color');
 const util = require('../lib/util');
+
+require('mocha-testcheck').install();
 require('should');
 
 const options = {
@@ -81,6 +81,14 @@ describe('util', () => {
       const color = util.rgbToColor(rgb);
       color.should.be.an.instanceOf(Color);
       color.hex().should.be.exactly('#FFFFFF');
+    });
+  });
+});
+
+describe('matcher', () => {
+  describe('#matchTermColors()', () => {
+    it('should return the correct color', () => {
+
     });
   });
 });

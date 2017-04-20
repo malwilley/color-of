@@ -20,7 +20,7 @@ The only required property is `bingApiKey`, which needs to be set to a valid Bin
 
 ```js
 const options = {
-	bingApiKey: 'adb85cb75d71403cba06e1783b28b414', // replace with valid key
+  bingApiKey: 'adb85cb75d71403cba06e1783b28b414', // replace with valid key
 };
 ```
 
@@ -32,13 +32,13 @@ If not provided, the library matches to a default 144 color palette.
 
 ```js
 const options = {
-	bingApiKey,
-    palette: [ 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
-    // or [ '#ff0000', '00ff00', '0000ff' ]
-    // or [ 'hsl(0,100%,50%)', 'hsl(120,100%,50%)', 'hsl(240,100%,50%)' ]
-    // or [ 'red', 'green', 'blue' ]
-    // or [ { h: 0, s: 100, v: 100 }, { h: 120, s: 100, v: 100 }, { h: 240, s: 100, v: 100 } ]
-    // ..etc
+  bingApiKey,
+  palette: [ 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
+  // or [ '#ff0000', '00ff00', '0000ff' ]
+  // or [ 'hsl(0,100%,50%)', 'hsl(120,100%,50%)', 'hsl(240,100%,50%)' ]
+  // or [ 'red', 'green', 'blue' ]
+  // or [ { h: 0, s: 100, v: 100 }, { h: 120, s: 100, v: 100 }, { h: 240, s: 100, v: 100 } ]
+  // ..etc
 };
 ```
 
@@ -48,7 +48,7 @@ By default, the first 50 image results are used in determining the closest color
 
 ```js
 const options = {
-	bingApiKey,
+  bingApiKey,
   numResults = 30 // max 50
 };
 ```

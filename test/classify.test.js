@@ -14,12 +14,12 @@ const util = require('../lib/util');
 require('mocha-testcheck').install();
 require('should');
 
-const options = {
-  bingApiKey,
-};
-
 describe('classifier', () => {
   describe('#classify()', () => {
+    const options = {
+      bingApiKey,
+      palette: ['red', 'green', 'blue', 'yellow', 'orange', 'purple'],
+    };
     it('should throw when no parameters are provided', () => {
       (() => classifier.classify()).should.throw();
     });
@@ -44,6 +44,14 @@ describe('classifier', () => {
       classifier.classify('term', options)
       .should.not.be.rejected()
       .should.eventually.be.an.instanceOf(Color);
+    });
+    it('should match "strawberry" to red', () => {
+      const promise = classifier.classify('strawberry', options);
+      return promise.should.finally.deepEqual(Color('red'));
+    });
+    it('should match "lime" to green', () => {
+      const promise = classifier.classify('lime', options);
+      return promise.should.finally.deepEqual(Color('green'));
     });
   });
 });
@@ -81,14 +89,6 @@ describe('util', () => {
       const color = util.rgbToColor(rgb);
       color.should.be.an.instanceOf(Color);
       color.hex().should.be.exactly('#FFFFFF');
-    });
-  });
-});
-
-describe('matcher', () => {
-  describe('#matchTermColors()', () => {
-    it('should return the correct color', () => {
-
     });
   });
 });

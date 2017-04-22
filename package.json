@@ -1,7 +1,7 @@
 {
   "name": "color-classifier",
   "version": "0.1.0",
-  "description": "search term -> color",
+  "description": "Javascript library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha"

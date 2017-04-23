@@ -8,6 +8,7 @@ try {
 
 const classifier = require('../lib/index');
 const bing = require('../lib/bing');
+const matcher = require('../lib/matcher');
 const Color = require('color');
 const util = require('../lib/util');
 
@@ -89,6 +90,15 @@ describe('util', () => {
       const color = util.rgbToColor(rgb);
       color.should.be.an.instanceOf(Color);
       color.hex().should.be.exactly('#FFFFFF');
+    });
+  });
+});
+
+describe('matcher', () => {
+  describe('#getHighestFrequencyColor()', () => {
+    const colors = ['#000000', '#111111', '#111111', '#222222'].map(c => Color(c));
+    it('should return the highest frequency color', () => {
+      matcher.getHighestFrequencyColor(colors).hex().should.be.exactly('#111111');
     });
   });
 });

@@ -1,17 +1,17 @@
-# color-classifier
+# color-of
 
 Javascript library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.
 
 ## Installation
 ````
-npm install color-classifier
+npm install color-of
 ````
 
 ## Usage
 
 ```js
-const classifier = require('color-classifier');
-const color = classifier.classify('banana', options); // returns a (npmjs.com/package/color) object
+const colorOf = require('color-of');
+const color = colorOf('banana', options); // returns a (npmjs.com/package/color) object
 ```
 
 ### Options object

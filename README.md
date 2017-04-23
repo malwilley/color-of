@@ -29,7 +29,7 @@ const options = {
 
 This library will match search terms to the nearest color in the provided palette. The `palette` property expects an array of colors, which can be formatted as css color strings or objects. Really, anything that is accepted as a constructor to the [Qix- color package](https://www.npmjs.com/package/color).
 
-If not provided, the library matches to a default 144 color palette.
+If not provided, the library matches to a default 146 color palette.
 
 ```js
 const options = {

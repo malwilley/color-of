@@ -11,7 +11,7 @@ npm install color-of
 
 ```js
 const colorOf = require('color-of');
-const color = colorOf('banana', options); // returns a (npmjs.com/package/color) object
+const color = await colorOf('banana', options); // resolves to a (npmjs.com/package/color) object
 ```
 
 ### Options object

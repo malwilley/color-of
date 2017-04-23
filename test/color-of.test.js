@@ -6,7 +6,7 @@ try {
   throw new Error('Must include a test/secret.js file that exports an object with a bingApiKey property');
 }
 
-const classifier = require('../lib/index');
+const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const matcher = require('../lib/matcher');
 const Color = require('color');
@@ -15,43 +15,43 @@ const util = require('../lib/util');
 require('mocha-testcheck').install();
 require('should');
 
-describe('classifier', () => {
-  describe('#classify()', () => {
+describe('main', () => {
+  describe('#colorOf()', () => {
     const options = {
       bingApiKey,
       palette: ['red', 'green', 'blue', 'yellow', 'orange', 'purple'],
     };
     it('should throw when no parameters are provided', () => {
-      (() => classifier.classify()).should.throw();
+      (() => colorOf()).should.throw();
     });
     it('should throw when no options are provided', () => {
-      (() => classifier.classify('term')).should.throw();
+      (() => colorOf('term')).should.throw();
     });
     it('should throw when no bing api key is provided', () => {
-      (() => classifier.classify('term', {})).should.throw();
+      (() => colorOf('term', {})).should.throw();
     });
     it('should throw when term is not a string', () => {
-      (() => classifier.classify(1, options)).should.throw();
-      (() => classifier.classify({}, options)).should.throw();
-      (() => classifier.classify(true, options)).should.throw();
-      (() => classifier.classify(undefined, options)).should.throw();
-      (() => classifier.classify(null, options)).should.throw();
-      (() => classifier.classify(Symbol(''), options)).should.throw();
+      (() => colorOf(1, options)).should.throw();
+      (() => colorOf({}, options)).should.throw();
+      (() => colorOf(true, options)).should.throw();
+      (() => colorOf(undefined, options)).should.throw();
+      (() => colorOf(null, options)).should.throw();
+      (() => colorOf(Symbol(''), options)).should.throw();
     });
     it('should throw when term is an empty string', () => {
-      (() => classifier.classify('', options)).should.throw();
+      (() => colorOf('', options)).should.throw();
     });
     it('should resolve to an instance of Color', () => {
-      classifier.classify('term', options)
+      colorOf('term', options)
       .should.not.be.rejected()
       .should.eventually.be.an.instanceOf(Color);
     });
     it('should match "strawberry" to red', () => {
-      const promise = classifier.classify('strawberry', options);
+      const promise = colorOf('strawberry', options);
       return promise.should.finally.deepEqual(Color('red'));
     });
     it('should match "lime" to green', () => {
-      const promise = classifier.classify('lime', options);
+      const promise = colorOf('lime', options);
       return promise.should.finally.deepEqual(Color('green'));
     });
   });

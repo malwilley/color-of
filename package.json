@@ -2,10 +2,15 @@
   "name": "color-of",
   "version": "0.1.2",
   "description": "Javascript library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.",
-  "keywords": [ "color", "search term", "dominant", "classify" ],
+  "keywords": [
+    "color",
+    "search term",
+    "dominant",
+    "classify"
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/malwilley/color-of.git"
+    "type": "git",
+    "url": "https://github.com/malwilley/color-of.git"
   },
   "bugs": {
     "url": "https://github.com/malwilley/color-of/issues"
@@ -28,6 +33,9 @@
   "dependencies": {
     "color": "^1.0.3",
     "color-diff": "^1.0.0",
-    "node-bing-api": "^3.2.1"
+    "dominant-color": "0.0.1",
+    "node-bing-api": "^3.2.1",
+    "request": "^2.81.0",
+    "tmp": "0.0.31"
   }
 }

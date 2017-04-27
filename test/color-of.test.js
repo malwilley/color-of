@@ -10,6 +10,7 @@ const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const matcher = require('../lib/matcher');
 const palette = require('../lib/palette');
+const download = require('../lib/download');
 const Color = require('color');
 const util = require('../lib/util');
 
@@ -51,18 +52,15 @@ describe('main', () => {
 });
 
 describe('bing', () => {
-  describe('#fetchQueryColors()', () => {
-    it('should return an array with [count] Color objects', () => {
+  describe('#fetchImageUrls()', () => {
+    it('should return an array with [count] image urls', () => {
       const count = 27;
-      bing.fetchQueryColors(bingApiKey, 'query', count)
-      .then((colors) => {
-        colors.should.be.instanceOf(Array).and.have.lengthOf(count);
-        colors.forEach(color => color.should.be.an.instanceOf(Color));
-      });
+      bing.fetchImageUrls(bingApiKey, 'query', count)
+      .should.eventually.be.instanceOf(Array).and.have.lengthOf(count);
     });
     it('should reject invalid search query counts', () => {
-      bing.fetchQueryColors(bingApiKey, 'query', -1).should.be.rejected();
-      bing.fetchQueryColors(bingApiKey, 'query', 51).should.be.rejected();
+      bing.fetchImageUrls(bingApiKey, 'query', -1).should.be.rejected();
+      bing.fetchImageUrls(bingApiKey, 'query', 51).should.be.rejected();
     });
   });
 });
@@ -103,6 +101,16 @@ describe('palette', () => {
     it('should return an array of 146 color objects', () => {
       colors.should.be.instanceOf(Array).and.have.lengthOf(146);
       colors.forEach(c => c.should.be.instanceOf(Color));
+    });
+  });
+});
+
+describe('download', () => {
+  describe('#getImageColor()', () => {
+    it('should resolve to a color', () => {
+      download.getImageColor('https://tse4.mm.bing.net/th?id=OIP.wCXthFqx7rTL4D0F-h29mQEzDL&pid=Api')
+      .should.not.be.rejected()
+      .should.eventually.be.an.instanceOf(Color);
     });
   });
 });

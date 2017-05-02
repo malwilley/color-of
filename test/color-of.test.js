@@ -10,7 +10,7 @@ const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const matcher = require('../lib/matcher');
 const palette = require('../lib/palette');
-const download = require('../lib/download');
+const download = require('../lib/imageColor');
 const Color = require('color');
 const util = require('../lib/util');
 
@@ -42,11 +42,6 @@ describe('main', () => {
     });
     it('should throw when term is an empty string', () => {
       (() => colorOf('', options)).should.throw();
-    });
-    it('should resolve to an instance of Color', () => {
-      colorOf('term', options)
-      .should.not.be.rejected()
-      .should.eventually.be.an.instanceOf(Color);
     });
   });
 });

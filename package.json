@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "color": "^1.0.3",
-    "color-diff": "^1.0.0",
+    "color-classifier": "0.0.1",
     "node-bing-api": "^3.2.1",
     "node-vibrant": "^3.0.0-alpha.2",
     "request": "^2.81.0",

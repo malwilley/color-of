@@ -29,12 +29,18 @@ const options = {
 
 This library will match search terms to the nearest color in the provided palette. The `palette` property expects an array of colors, which can be formatted as css color strings or objects. Really, anything that is accepted as a constructor to the [Qix- color package](https://www.npmjs.com/package/color).
 
-If not provided, the library matches to a default 146 color palette.
+| Palette Name  | Description                                           | Source |
+| ------------- |-------------------------------------------------------|--------|
+| 'material'    | Google's material design palette (default brightness) | [Link](https://material.io/guidelines/style/color.html?hl=fi#color-color-tool)   |
+| 'w3c'         | The W3C color palette                                 | [Link](https://www.w3.org/TR/css3-color/#html4) |
+| 'css'         | The palette of all valid CSS color strings            | [Link](https://drafts.csswg.org/css-color/#named-colors) |
 
 ```js
 const options = {
   bingApiKey,
   palette: [ 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(0,0,255)']
+  // or 'w3c'
+  // or 'css'
   // or [ '#ff0000', '00ff00', '0000ff' ]
   // or [ 'hsl(0,100%,50%)', 'hsl(120,100%,50%)', 'hsl(240,100%,50%)' ]
   // or [ 'red', 'green', 'blue' ]

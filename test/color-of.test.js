@@ -9,7 +9,6 @@ try {
 const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const matcher = require('../lib/matcher');
-const palette = require('../lib/palette');
 const download = require('../lib/imageColor');
 const Color = require('color');
 const util = require('../lib/util');
@@ -86,16 +85,6 @@ describe('matcher', () => {
       .map(c => Color(c));
     it('should return the highest frequency color', () => {
       matcher.getHighestFrequencyColor(colors).hex().should.be.exactly('#111111');
-    });
-  });
-});
-
-describe('palette', () => {
-  describe('#createDefaultPalette()', () => {
-    const colors = palette.createDefaultPalette();
-    it('should return an array of 146 color objects', () => {
-      colors.should.be.instanceOf(Array).and.have.lengthOf(146);
-      colors.forEach(c => c.should.be.instanceOf(Color));
     });
   });
 });

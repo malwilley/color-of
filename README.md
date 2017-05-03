@@ -1,6 +1,6 @@
 # color-of
 
-Javascript library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.
+Node library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.
 
 ## Installation
 ````

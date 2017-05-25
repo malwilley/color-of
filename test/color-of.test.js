@@ -1,13 +1,19 @@
 let bingApiKey;
+let googleCseId;
+let googleApiKey;
 
 try {
-  bingApiKey = require('./secret').bingApiKey; // eslint-disable-line global-require
+  const secret = require('./secret'); // eslint-disable-line global-require
+  bingApiKey = secret.bingApiKey;
+  googleCseId = secret.google.cseId;
+  googleApiKey = secret.google.apiKey;
 } catch (e) {
   throw new Error('Must include a test/secret.js file that exports an object with a bingApiKey property');
 }
 
 const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
+const google = require('../lib/google');
 const matcher = require('../lib/matcher');
 const download = require('../lib/imageColor');
 const Color = require('color');
@@ -55,6 +61,16 @@ describe('bing', () => {
     it('should reject invalid search query counts', () => {
       bing.fetchImageUrls(bingApiKey, 'query', -1).should.be.rejected();
       bing.fetchImageUrls(bingApiKey, 'query', 51).should.be.rejected();
+    });
+  });
+});
+
+describe('google', () => {
+  describe('#fetchImageUrls()', () => {
+    it('should return an array with [count] image urls', () => {
+      const count = 25;
+      google.fetchImageUrls(googleCseId, googleApiKey, 'query', count)
+      .then(console.log);
     });
   });
 });

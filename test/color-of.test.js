@@ -9,7 +9,7 @@ try {
 const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const matcher = require('../lib/matcher');
-const download = require('../lib/imageColor');
+const imageColor = require('../lib/imageColor');
 const Color = require('color');
 const util = require('../lib/util');
 
@@ -49,12 +49,12 @@ describe('bing', () => {
   describe('#fetchImageUrls()', () => {
     it('should return an array with [count] image urls', () => {
       const count = 27;
-      bing.fetchImageUrls(bingApiKey, 'query', count)
+      return bing.fetchImageUrls(bingApiKey, 'query', count)
       .should.eventually.be.instanceOf(Array).and.have.lengthOf(count);
     });
     it('should reject invalid search query counts', () => {
-      bing.fetchImageUrls(bingApiKey, 'query', -1).should.be.rejected();
-      bing.fetchImageUrls(bingApiKey, 'query', 51).should.be.rejected();
+      const promise = bing.fetchImageUrls(bingApiKey, 'query', -1);
+      return promise.should.be.rejected();
     });
   });
 });
@@ -92,8 +92,8 @@ describe('matcher', () => {
 describe('download', () => {
   describe('#getImageColor()', () => {
     it('should resolve to a color', () => {
-      download.getImageColor('https://tse4.mm.bing.net/th?id=OIP.wCXthFqx7rTL4D0F-h29mQEzDL&pid=Api')
-      .should.not.be.rejected()
+      const promise = imageColor.requestImageColor('https://tse4.mm.bing.net/th?id=OIP.wCXthFqx7rTL4D0F-h29mQEzDL&pid=Api');
+      return promise.should.not.be.rejected()
       .should.eventually.be.an.instanceOf(Color);
     });
   });

@@ -35,7 +35,6 @@
     "color-diff": "^1.0.0",
     "node-bing-api": "^3.2.1",
     "node-vibrant": "^3.0.0-alpha.2",
-    "request": "^2.81.0",
-    "tmp": "0.0.31"
+    "request": "^2.81.0"
   }
 }

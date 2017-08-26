@@ -2,6 +2,7 @@ const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const google = require('../lib/google');
 const matcher = require('../lib/matcher');
+const imageColor = require('../lib/imageColor');
 const Color = require('color');
 const util = require('../lib/util');
 
@@ -56,8 +57,7 @@ describe('google', () => {
   describe('#fetchImageUrls()', () => {
     it('should return an array with [count] image urls', () => {
       const count = 25;
-      google.fetchImageUrls(secret.google.cseId, secret.google.apiKey, 'query', count)
-      .then(console.log);
+      google.fetchImageUrls(secret.google.cseId, secret.google.apiKey, 'query', count);
     });
   });
 });
@@ -88,6 +88,16 @@ describe('matcher', () => {
       .map(c => Color(c));
     it('should return the highest frequency color', () => {
       matcher.getHighestFrequencyColor(colors).hex().should.be.exactly('#111111');
+    });
+  });
+});
+
+describe('imageColor', () => {
+  describe('#getImageColor()', () => {
+    it('should resolve to a color', () => {
+      imageColor.requestImageColor('https://tse4.mm.bing.net/th?id=OIP.wCXthFqx7rTL4D0F-h29mQEzDL&pid=Api')
+      .should.not.be.rejected()
+      .should.eventually.be.an.instanceOf(Color);
     });
   });
 });

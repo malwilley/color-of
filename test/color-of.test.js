@@ -1,31 +1,18 @@
-let bingApiKey;
-let googleCseId;
-let googleApiKey;
-
-try {
-  const secret = require('./secret'); // eslint-disable-line global-require
-  bingApiKey = secret.bingApiKey;
-  googleCseId = secret.google.cseId;
-  googleApiKey = secret.google.apiKey;
-} catch (e) {
-  throw new Error('Must include a test/secret.js file that exports an object with a bingApiKey property');
-}
-
 const colorOf = require('../lib/index');
 const bing = require('../lib/bing');
 const google = require('../lib/google');
 const matcher = require('../lib/matcher');
-const download = require('../lib/imageColor');
 const Color = require('color');
 const util = require('../lib/util');
 
 require('mocha-testcheck').install();
 require('should');
+const secret = require('./utils/keys').getSecretKeys();
 
 describe('main', () => {
   describe('#colorOf()', () => {
     const options = {
-      bingApiKey,
+      bingApiKey: secret.bingApiKey,
       palette: ['red', 'green', 'blue', 'yellow', 'orange', 'purple'],
     };
     it('should throw when no parameters are provided', () => {
@@ -55,12 +42,12 @@ describe('bing', () => {
   describe('#fetchImageUrls()', () => {
     it('should return an array with [count] image urls', () => {
       const count = 27;
-      bing.fetchImageUrls(bingApiKey, 'query', count)
+      bing.fetchImageUrls(secret.bingApiKey, 'query', count)
       .should.eventually.be.instanceOf(Array).and.have.lengthOf(count);
     });
     it('should reject invalid search query counts', () => {
-      bing.fetchImageUrls(bingApiKey, 'query', -1).should.be.rejected();
-      bing.fetchImageUrls(bingApiKey, 'query', 51).should.be.rejected();
+      bing.fetchImageUrls(secret.bingApiKey, 'query', -1).should.be.rejected();
+      bing.fetchImageUrls(secret.bingApiKey, 'query', 51).should.be.rejected();
     });
   });
 });
@@ -69,7 +56,7 @@ describe('google', () => {
   describe('#fetchImageUrls()', () => {
     it('should return an array with [count] image urls', () => {
       const count = 25;
-      google.fetchImageUrls(googleCseId, googleApiKey, 'query', count)
+      google.fetchImageUrls(secret.google.cseId, secret.google.apiKey, 'query', count)
       .then(console.log);
     });
   });
@@ -101,16 +88,6 @@ describe('matcher', () => {
       .map(c => Color(c));
     it('should return the highest frequency color', () => {
       matcher.getHighestFrequencyColor(colors).hex().should.be.exactly('#111111');
-    });
-  });
-});
-
-describe('download', () => {
-  describe('#getImageColor()', () => {
-    it('should resolve to a color', () => {
-      download.getImageColor('https://tse4.mm.bing.net/th?id=OIP.wCXthFqx7rTL4D0F-h29mQEzDL&pid=Api')
-      .should.not.be.rejected()
-      .should.eventually.be.an.instanceOf(Color);
     });
   });
 });

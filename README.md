@@ -1,6 +1,6 @@
 # color-of
 
-Node library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.
+Library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette. Uses either Google Custom Search Engine API or Microsoft Cognitive Services.
 
 ## Installation
 ````
@@ -17,7 +17,25 @@ colorOf('banana', options) // returns a promise
 
 ### Options object
 
-The only required property is `bingApiKey`, which needs to be set to a valid Bing Web Search API key. Get this string by creating an account with [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services/en-us/bing-web-search-api).
+The options object **must** include API information for either Google or Bing. Both services provide a limited number of uses for free. [Instructions here](#getting-api-keys).
+
+#### Google
+
+Required properties: 
+- `googleCseId`
+- `googleApiKey`
+
+```js
+const options = {
+  googleCseId: 'adb85cb75d71403cba06e1783b28b414', // replace with valid key
+  googleApiKey: 'adb85cb75d71403cba06e1783b28b414', // replace with valid key
+};
+```
+
+#### Bing
+
+Required properties:
+- `bingApiKey`
 
 ```js
 const options = {
@@ -59,3 +77,33 @@ const options = {
   numResults = 30 // max 50
 };
 ```
+
+## Getting API Keys
+
+Below are details on how to get free search API keys for either Google or Bing.
+
+### Bing
+
+Navigate to [azure.microsoft.com/en-us/try/cognitive-services/](https://azure.microsoft.com/en-us/try/cognitive-services/), switch to the 'Search' tab, and select 'Get API Key' for Bing Search APIs. Login with any of the providers and your keys will be listed at [https://azure.microsoft.com/en-us/try/cognitive-services/my-apis/](https://azure.microsoft.com/en-us/try/cognitive-services/my-apis/). This will be your `bingApiKey`.
+
+### Google
+
+#### 1. Create Google Custom Search Engine (CSE)
+
+Navigate to [cse.google.com/cse](https://cse.google.com/cse/all) and add a search engine.
+
+When creating, do not specify a URL in the 'Sites to search' section. In the 'Advanced' dropdown, enter 'Thing' as the Schema.org type.
+
+After created, go to the control panel for your search engine and get the search engine ID in the 'Details' section. This is your `googleCseId`.
+
+#### 2. Enable image search for your CSE
+
+In the control panel for your CSE, right below your search engine ID, switch 'Image search' to ON.
+
+#### 3. Create API for your CSE
+
+Navigate to [console.developers.google.com](https://console.developers.google.com/) and create a new project with any name.
+
+In 'Enable APIs and Services', search "custom search API" and enable it for the project.
+
+In the 'Credentials' section, the API key will be your `googleApiKey`.

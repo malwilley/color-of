@@ -1,7 +1,7 @@
-require('mocha-testcheck').install();
+/* require('mocha-testcheck').install();
 require('should');
 const palettes = require('../lib/palettes/palette');
-const imageColor = require('../lib/imageColor');
+const imageColor = require('../lib/requestImageColor');
 const util = require('../lib/util');
 const Color = require('color');
 
@@ -21,3 +21,4 @@ describe('imageColor', () => {
     });
   });
 });
+*/

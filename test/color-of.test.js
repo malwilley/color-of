@@ -1,4 +1,5 @@
-const colorOf = require('../lib/index');
+const colorOf = require('..');
+const Color = require('color');
 
 require('mocha-testcheck').install();
 require('should');
@@ -16,11 +17,19 @@ function assertColorOf(options) {
   it('should throw when term is an empty string', () => {
     (() => colorOf('', options)).should.throw();
   });
+  it('should get yellow for banana', (done) => {
+    colorOf('banana', options)
+    .then((color) => {
+      color.should.be.an.instanceOf(Color);
+      color.hex().should.be.exactly('#FFFF00');
+      done();
+    });
+  });
 }
 
 describe('main', () => {
   describe('#colorOf()', () => {
-    const palette = ['red', 'green', 'blue', 'yellow', 'orange', 'purple'];
+    const palette = ['red', 'green', 'blue', 'yellow', 'black', 'white'];
     const optionsBing = {
       bingApiKey: secret.bingApiKey,
       palette,

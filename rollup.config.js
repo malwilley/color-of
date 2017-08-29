@@ -1,16 +1,27 @@
+import builtins from 'rollup-plugin-node-builtins';
+import globals from 'rollup-plugin-node-globals';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import json from 'rollup-plugin-json';
 import pkg from './package.json';
 
 export default [
   // browser-friendly UMD build
   {
-    entry: 'lib/index.js',
-    dest: pkg.browser,
-    format: 'umd',
-    moduleName: 'colorOf',
+    input: 'lib/index.js',
+    output: {
+      file: pkg.browser,
+      format: 'umd',
+      name: 'colorOf',
+    },
     plugins: [
-      resolve(), // so Rollup can find `ms`
+      globals(),
+      builtins(),
+      json(),
+      resolve({
+        browser: true,
+        extensions: ['.js', '.json'],
+      }), // so Rollup can find `ms`
       commonjs(), // so Rollup can convert `ms` to an ES module
     ],
   },
@@ -21,11 +32,11 @@ export default [
   // builds from a single configuration where possible, using
   // the `targets` option which can specify `dest` and `format`)
   {
-    entry: 'lib/index.js',
-    external: ['color', 'color-diff', 'google-images', 'node-bing-api', 'node-vibrant'],
-    targets: [
-      { dest: pkg.main, format: 'cjs' },
-      { dest: pkg.module, format: 'es' },
+    input: 'lib/index.js',
+    external: ['color', 'color-diff', 'google-images', 'node-vibrant', 'popsicle'],
+    output: [
+      { file: pkg.main, format: 'cjs' },
+      { file: pkg.module, format: 'es' },
     ],
   },
 ];

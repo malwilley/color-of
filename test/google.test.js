@@ -1,4 +1,4 @@
-const google = require('../lib/google');
+/* const google = require('../lib/google');
 const secret = require('./utils/keys').getSecretKeys();
 
 describe('google', () => {
@@ -14,3 +14,4 @@ describe('google', () => {
     });
   });
 });
+*/

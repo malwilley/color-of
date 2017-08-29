@@ -1,4 +1,4 @@
-require('mocha-testcheck').install();
+/* require('mocha-testcheck').install();
 require('should');
 const bing = require('../lib/bing');
 const bingApiKey = require('./utils/keys').getSecretKeys().bingApiKey;
@@ -16,3 +16,4 @@ describe('bing', () => {
     });
   });
 });
+*/

@@ -1,4 +1,4 @@
-require('mocha-testcheck').install();
+/* require('mocha-testcheck').install();
 require('should');
 const util = require('../lib/util');
 const Color = require('color');
@@ -22,3 +22,4 @@ describe('util', () => {
     });
   });
 });
+*/

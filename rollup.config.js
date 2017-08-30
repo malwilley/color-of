@@ -2,6 +2,7 @@ import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import filesize from 'rollup-plugin-filesize';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';
 
@@ -14,6 +15,7 @@ export default [
       format: 'umd',
       name: 'colorOf',
     },
+    external: ['color', 'color-diff', 'google-images', 'node-vibrant', 'popsicle'],
     plugins: [
       globals(),
       builtins(),
@@ -21,8 +23,9 @@ export default [
       resolve({
         browser: true,
         extensions: ['.js', '.json'],
-      }), // so Rollup can find `ms`
-      commonjs(), // so Rollup can convert `ms` to an ES module
+      }),
+      commonjs(),
+      filesize(),
     ],
   },
 

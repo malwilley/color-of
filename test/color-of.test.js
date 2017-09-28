@@ -1,5 +1,4 @@
-const colorOf = require('..');
-const Color = require('color');
+import colorOf from '..';
 
 require('mocha-testcheck').install();
 require('should');
@@ -16,14 +15,6 @@ function assertColorOf(options) {
   });
   it('should throw when term is an empty string', () => {
     (() => colorOf('', options)).should.throw();
-  });
-  it('should get yellow for banana', (done) => {
-    colorOf('banana', options)
-    .then((color) => {
-      color.should.be.an.instanceOf(Color);
-      color.hex().should.be.exactly('#FFFF00');
-      done();
-    });
   });
 }
 

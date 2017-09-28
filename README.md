@@ -3,6 +3,7 @@
 Library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette. Uses either Google Custom Search Engine API or Microsoft Cognitive Services.
 
 ## Installation
+
 ````
 npm install color-of
 ````
@@ -67,14 +68,16 @@ const options = {
 };
 ```
 
-#### Number of Bing Results
+#### Number of Search Results
 
-By default, the first 50 image results are used in determining the closest color match. This is the maximum  allowed by the Bing API. If you would like to match on a smaller number of images, provide this number in the `numResults` property.
+By default, the first 50 image results are used in determining the closest color match. If you would like to match on a smaller number of images, provide this number in the `numResults` property
+
+Bing only returns the first 50 image results. Google, on the other hand, will return 10 per API request. This means that a numResults = 50 will chew up 5 Google API requests.
 
 ```js
 const options = {
   bingApiKey,
-  numResults = 30 // max 50
+  numResults = 30 // max 50 for Bing, no limit for Google
 };
 ```
 

@@ -3,6 +3,7 @@ import globals from 'rollup-plugin-node-globals';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
+import buble from 'rollup-plugin-buble';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';
 
@@ -26,6 +27,7 @@ export default [
       }),
       commonjs(),
       filesize(),
+      buble(),
     ],
   },
 

@@ -1,7 +1,7 @@
 {
   "name": "color-of",
-  "version": "0.2.1",
-  "description": "Node library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.",
+  "version": "0.3.0",
+  "description": "Node/browser library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.",
   "keywords": [
     "color",
     "search term",
@@ -15,25 +15,41 @@
   "bugs": {
     "url": "https://github.com/malwilley/color-of/issues"
   },
-  "main": "lib/index.js",
+  "main": "dist/color-of.cjs.js",
+  "module": "dist/color-of.esm.js",
+  "browser": "dist/color-of.umd.js",
   "scripts": {
-    "test": "mocha"
+    "prebuild": "rm -rf dist/*",
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "test": "mocha --require reify"
   },
   "author": "Malachi Willey",
   "license": "MIT",
   "devDependencies": {
+    "buble": "^0.15.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-mocha": "^4.9.0",
     "mocha": "^3.2.0",
     "mocha-testcheck": "^0.1.2",
+    "reify": "^0.12.3",
+    "rollup": "^0.48.2",
+    "rollup-plugin-buble": "^0.16.0",
+    "rollup-plugin-commonjs": "^8.2.0",
+    "rollup-plugin-filesize": "^1.4.2",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "should": "^11.2.1"
   },
   "dependencies": {
     "color": "^1.0.3",
     "color-diff": "^1.0.0",
-    "node-bing-api": "^3.2.1",
-    "node-vibrant": "^3.0.0-alpha.2"
+    "google-images": "^2.1.0",
+    "node-vibrant": "^3.0.0-alpha.2",
+    "popsicle": "^9.1.0"
   }
 }

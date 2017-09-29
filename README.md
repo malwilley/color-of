@@ -81,6 +81,18 @@ const options = {
 };
 ```
 
+## Building
+
+### Testing
+
+Add your own API keys for Google and Bing in test/inputs/secret.js. Follow the example file there.
+
+To run the mocha tests:
+
+`
+npm run test
+`
+
 ## Getting API Keys
 
 Below are details on how to get free search API keys for either Google or Bing.

@@ -1,11 +1,12 @@
+import Color from 'color';
 import colorOf from '..';
 
 require('mocha-testcheck').install();
 require('should');
 const secret = require('./utils/keys').getSecretKeys();
 
-function assertColorOf(options) {
-  it('should throw when term is not a string', () => {
+function assertColorOf(providerName, options) {
+  it(`should throw when term is not a string [${providerName}]`, () => {
     (() => colorOf(1, options)).should.throw();
     (() => colorOf({}, options)).should.throw();
     (() => colorOf(true, options)).should.throw();
@@ -13,9 +14,18 @@ function assertColorOf(options) {
     (() => colorOf(null, options)).should.throw();
     (() => colorOf(Symbol(''), options)).should.throw();
   });
-  it('should throw when term is an empty string', () => {
+  it(`should throw when term is an empty string [${providerName}]`, () => {
     (() => colorOf('', options)).should.throw();
   });
+  it(`should get yellow for banana [${providerName}]`, (done) => {
+    colorOf('banana', options)
+      .then((color) => {
+        color.should.be.an.instanceOf(Color);
+        color.hex().should.be.exactly('#FFFF00');
+        done();
+      })
+      .catch(error => done(error));
+  }).timeout(10000);
 }
 
 describe('main', () => {
@@ -41,7 +51,7 @@ describe('main', () => {
       (() => colorOf('term', {})).should.throw();
     });
 
-    assertColorOf(optionsBing);
-    assertColorOf(optionsGoogle);
+    assertColorOf('bing', optionsBing);
+    assertColorOf('google', optionsGoogle);
   });
 });

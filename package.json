@@ -1,7 +1,7 @@
 {
   "name": "color-of",
   "version": "0.3.0",
-  "description": "Node library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.",
+  "description": "Node/browser library for finding the the most representative color of a given search term. Matches to the nearest color of the provided palette.",
   "keywords": [
     "color",
     "search term",

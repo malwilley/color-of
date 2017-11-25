@@ -27,7 +27,10 @@ export default [
       }),
       commonjs(),
       filesize(),
-      buble(),
+      buble({
+        objectAssign: 'Object.assign',
+        exclude: ['node_modules/**'],
+      }),
     ],
   },
 
